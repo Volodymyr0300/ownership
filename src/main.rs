@@ -1,46 +1,19 @@
-fn main() { 
-    /*
-                            // s is not valid here; it's not yet declared
-    let s = "hello";  // s is valid from this point forward
-                            // do stuff with s
-     */
+fn main() {
+    let s = String::from("hello"); // s comes into scope
+    takes_ownership(s); // s's value moves into the function...
+    // ... and so is no longer valid here
+    let x = 5; // x comes into scope
+    makes_copy(x); // x would move into the function,
+    // but i32 is Copy, so it's okay to
+    // still use x afterward
+} // Here, x goes out of scope, then s. But because s's value was moved,
+// nothing special happens.
 
-    /*
-    let _s1 = "hello"; // &str
-    let mut s2 = String::from("hello"); // String
+fn takes_ownership(some_string: String) { // some_string comes into scope
+    println!("{}", some_string);
+} // Here, some_string goes out of scope and `drop` is called. The backing
+// memory is freed.
 
-    // s1.push_str(" world"); // Error: `&str` is immutable
-    s2.push_str(" world"); // Works: `String` is mutable
-    println!("{}", s2); // Output: "hello world"
-     */
-
-    /*
-    let mut s = String::from("hello");
-    s.push_str(", world!"); // push_str() appends a literal to a String
-    println!("{}", s); // this will print `hello, world!`
-    */
-
-    /*
-    {
-        let _t = String::from("hello"); // t is valid from this point forward
-         // this scope is now over, and t is no
-        // longer valid
-    }
-    */
-
-    /*
-    let x = 5;
-    let y = x;
-    println!("x: {}, y: {}", x, y); // Output: x: 5, y: 5
-
-    let s1 = String::from("hello");
-    let s2 = s1;
-    println!("{} {}", s1, s2); // Error: s1 is no longer valid
-     */
-
-    
-    let s1 = String::from("hello");
-    let s2 = s1.clone(); // Clone s1 into s2
-    println!("s1 = {}, s2 = {}", s1, s2);
-    
-}
+fn makes_copy(some_integer: i32) { // some_integer comes into scope
+    println!("{}", some_integer);
+} // Here, some_integer goes out of scope. Nothing special happens.
